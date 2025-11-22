@@ -1,0 +1,8 @@
+node_modules
+database.sqlite
+src
+server.js
+app.js
+*.sqlite
+*.db
+
