@@ -8,10 +8,11 @@
     "start": "node server.js",
     "dev": "node --watch server.js",
     "dev:frontend": "vite",
-    "build": "vite build",
-    "build:prod": "npm run build && NODE_ENV=production",
+    "build": "npm run build:frontend",
+    "build:frontend": "vite build",
+    "build:all": "npm run build:frontend && echo 'Build completado'",
     "preview": "vite preview",
-    "postinstall": "npm run build"
+    "postinstall": "npm run build:frontend"
   },
   "keywords": [
     "crud",

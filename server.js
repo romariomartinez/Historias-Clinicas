@@ -7,9 +7,6 @@ import app from './app.js';
 
 const PORT = process.env.PORT || 3000;
 
-// Asegurar que la base de datos se inicialice
-import './src/config/database.js';
-
 /**
  * Inicia el servidor
  */

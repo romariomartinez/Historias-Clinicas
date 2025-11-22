@@ -190,29 +190,6 @@ La base de datos SQLite se crea automáticamente en el archivo `database.sqlite`
 - **Tailwind CSS**: Framework CSS utility-first
 - **PostCSS**: Procesador de CSS
 
-## 🚀 Despliegue
-
-Para desplegar la aplicación en producción:
-
-1. **Compilar el frontend:**
-```bash
-npm run build
-```
-
-2. **Iniciar en producción:**
-```bash
-NODE_ENV=production npm start
-```
-
-### Plataformas de Despliegue Recomendadas
-
-- **Railway**: [Guía de despliegue](./DEPLOY_INSTRUCTIONS.md#opción-1-railway-más-fácil---recomendado)
-- **Render**: [Guía de despliegue](./DEPLOY_INSTRUCTIONS.md#opción-2-render)
-- **Heroku**: [Guía de despliegue](./DEPLOY_INSTRUCTIONS.md#opción-3-heroku)
-- **VPS**: [Guía de despliegue](./DEPLOY_INSTRUCTIONS.md#opción-4-vps-servidor-propio)
-
-Ver [DEPLOY_INSTRUCTIONS.md](./DEPLOY_INSTRUCTIONS.md) para instrucciones detalladas.
-
 ## 📝 Notas
 
 - La base de datos se crea automáticamente al iniciar el servidor
@@ -221,7 +198,6 @@ Ver [DEPLOY_INSTRUCTIONS.md](./DEPLOY_INSTRUCTIONS.md) para instrucciones detall
 - El manejo de errores es coherente en todos los endpoints
 - En desarrollo, el frontend corre en Vite (puerto 5173) con proxy al backend
 - En producción, el frontend se compila y se sirve desde Express
-- **Importante**: Ejecuta `npm run build` antes de desplegar
 
 ## 📄 Licencia
 

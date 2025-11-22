@@ -19,9 +19,6 @@ app.use(express.json());
 // Middleware para parsear URL encoded
 app.use(express.urlencoded({ extended: true }));
 
-// Servir archivos estáticos desde la carpeta public
-app.use(express.static(join(__dirname, 'public')));
-
 /**
  * Middleware de logging para desarrollo
  * Registra todas las peticiones entrantes
@@ -30,21 +27,6 @@ app.use((req, res, next) => {
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
   next();
 });
-
-/**
- * Ruta raíz - Sirve el frontend React (solo en producción)
- * En desarrollo, Vite sirve el frontend en puerto 5173
- */
-if (process.env.NODE_ENV === 'production') {
-  // Todas las rutas no-API sirven el index.html (SPA)
-  app.get('*', (req, res, next) => {
-    // No servir index.html para rutas de API
-    if (req.path.startsWith('/api') || req.path.startsWith('/historias-clinicas') || req.path.startsWith('/api-docs')) {
-      return next();
-    }
-    res.sendFile(join(__dirname, 'public', 'index.html'));
-  });
-}
 
 /**
  * @swagger
@@ -99,13 +81,47 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
 app.use('/historias-clinicas', historiaClinicaRoutes);
 
 /**
- * Middleware para manejar rutas no encontradas (404)
+ * Servir archivos estáticos desde la carpeta public (solo en producción)
+ * En desarrollo, Vite sirve el frontend en puerto 5173
+ */
+if (process.env.NODE_ENV === 'production') {
+  // Servir archivos estáticos de React (CSS, JS, imágenes, etc.)
+  app.use(express.static(join(__dirname, 'public'), {
+    maxAge: '1y', // Cache estático por 1 año
+    etag: true
+  }));
+  
+  // Todas las rutas que no sean API, servir index.html (SPA)
+  app.get('*', (req, res) => {
+    // No servir index.html para rutas de API
+    if (req.path.startsWith('/api') || req.path.startsWith('/historias-clinicas') || req.path.startsWith('/api-docs')) {
+      return res.status(404).json({
+        success: false,
+        message: 'Ruta no encontrada'
+      });
+    }
+    res.sendFile(join(__dirname, 'public', 'index.html'));
+  });
+}
+
+/**
+ * Middleware para manejar rutas no encontradas (404) - Solo para API
  */
 app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Ruta no encontrada'
-  });
+  // Solo responder JSON si es una petición de API
+  if (req.path.startsWith('/api') || req.path.startsWith('/historias-clinicas') || req.path.startsWith('/api-docs')) {
+    return res.status(404).json({
+      success: false,
+      message: 'Ruta no encontrada'
+    });
+  }
+  // Para otras rutas, si estamos en desarrollo, no hacer nada (Vite maneja)
+  if (process.env.NODE_ENV !== 'production') {
+    return res.status(404).json({
+      success: false,
+      message: 'Ruta no encontrada'
+    });
+  }
 });
 
 /**

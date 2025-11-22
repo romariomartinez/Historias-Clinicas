@@ -1,6 +1,5 @@
 # Dependencias
 node_modules/
-client/node_modules/
 
 # Base de datos SQLite
 database.sqlite
@@ -12,20 +11,15 @@ database.sqlite
 logs/
 *.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pm2.log
 
 # Variables de entorno
 .env
 .env.local
 .env.*.local
-.env.production
 
 # Sistema operativo
 .DS_Store
 Thumbs.db
-desktop.ini
 
 # IDEs
 .vscode/
@@ -33,32 +27,29 @@ desktop.ini
 *.swp
 *.swo
 *~
-.project
-.classpath
-.settings/
 
 # Archivos temporales
 *.tmp
 *.temp
-.cache/
 
 # React / Vite
 client/dist/
+client/node_modules/
 public/index.html
 public/assets/
 public/vite.svg
 
-# Build
+# Build (mantener estructura pero no archivos generados)
+# public/ se genera en build, pero queremos mantener la estructura
+
+# Build artifacts
 dist/
 build/
 .next/
 out/
 
-# PM2
-.pm2/
-
-# Railway
-.railway/
-
 # Vercel
 .vercel
+
+# Heroku
+.heroku/

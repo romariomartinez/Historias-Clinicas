@@ -1,83 +1,78 @@
-# 🚀 Guía de Despliegue
+# 🚀 Guía de Despliegue - Sistema de Historias Clínicas
 
-Esta guía te ayudará a desplegar la aplicación de Gestión de Historias Clínicas en diferentes plataformas.
+Esta guía te ayudará a desplegar la aplicación en diferentes plataformas.
 
-## 📋 Pre-requisitos
+## 📋 Requisitos Previos
 
-1. **Compilar el frontend:**
+1. Cuenta en la plataforma elegida
+2. Git configurado
+3. Proyecto en un repositorio Git (GitHub, GitLab, etc.)
+
+---
+
+## 🌐 Opción 1: Render (Recomendado - Gratis)
+
+### Pasos:
+
+1. **Crear cuenta en Render:**
+   - Ve a [render.com](https://render.com)
+   - Regístrate con GitHub
+
+2. **Crear nuevo servicio:**
+   - Click en "New +" → "Web Service"
+   - Conecta tu repositorio
+
+3. **Configuración:**
+   - **Name:** `historias-clinicas-api`
+   - **Environment:** `Node`
+   - **Build Command:** `npm install && npm run build:frontend`
+   - **Start Command:** `npm start`
+   - **Environment Variables:**
+     - `NODE_ENV` = `production`
+     - `PORT` = `10000` (Render lo asigna automáticamente)
+
+4. **Desplegar:**
+   - Click en "Create Web Service"
+   - Render construirá y desplegará automáticamente
+
+### Ventajas:
+- ✅ Plan gratuito disponible
+- ✅ Despliegue automático desde Git
+- ✅ SSL automático
+- ✅ Base de datos SQLite incluida
+
+---
+
+## 🌐 Opción 2: Vercel
+
+### Pasos:
+
+1. **Instalar Vercel CLI:**
 ```bash
-npm run build
+npm i -g vercel
 ```
 
-Esto generará los archivos estáticos en la carpeta `public/`.
-
-2. **Verificar que todo funciona localmente:**
+2. **Desplegar:**
 ```bash
-NODE_ENV=production npm start
+vercel
 ```
 
-## 🌐 Opciones de Despliegue
+3. **O desde el dashboard:**
+   - Ve a [vercel.com](https://vercel.com)
+   - Importa tu repositorio
+   - Vercel detectará automáticamente la configuración
 
-### 1. Railway (Recomendado - Gratis)
+### Nota:
+Vercel funciona mejor para frontend. Para el backend completo, considera usar Render o Heroku.
 
-Railway es excelente para aplicaciones Node.js con base de datos SQLite.
+---
 
-#### Pasos:
+## 🌐 Opción 3: Heroku
 
-1. **Crear cuenta en [Railway](https://railway.app/)**
-
-2. **Instalar Railway CLI:**
-```bash
-npm i -g @railway/cli
-```
-
-3. **Iniciar sesión:**
-```bash
-railway login
-```
-
-4. **Inicializar proyecto:**
-```bash
-railway init
-```
-
-5. **Desplegar:**
-```bash
-railway up
-```
-
-6. **Configurar variables de entorno:**
-   - `NODE_ENV=production`
-   - `PORT` (Railway lo asigna automáticamente)
-
-7. **Abrir dominio:**
-```bash
-railway open
-```
-
-### 2. Render (Gratis con limitaciones)
-
-#### Pasos:
-
-1. **Crear cuenta en [Render](https://render.com/)**
-
-2. **Crear nuevo Web Service:**
-   - Conectar repositorio de GitHub
-   - Build Command: `npm install && npm run build`
-   - Start Command: `NODE_ENV=production npm start`
-   - Environment: `Node`
-
-3. **Variables de entorno:**
-   - `NODE_ENV=production`
-
-### 3. Heroku
-
-#### Pasos:
+### Pasos:
 
 1. **Instalar Heroku CLI:**
-```bash
-npm install -g heroku
-```
+   - Descarga desde [heroku.com](https://devcenter.heroku.com/articles/heroku-cli)
 
 2. **Login:**
 ```bash
@@ -89,143 +84,156 @@ heroku login
 heroku create tu-app-nombre
 ```
 
-4. **Configurar buildpacks:**
-```bash
-heroku buildpacks:set heroku/nodejs
-```
-
-5. **Variables de entorno:**
+4. **Configurar variables:**
 ```bash
 heroku config:set NODE_ENV=production
 ```
 
-6. **Desplegar:**
+5. **Desplegar:**
 ```bash
 git push heroku main
 ```
 
-### 4. Vercel (Solo Frontend) + Backend separado
+### Ventajas:
+- ✅ Plan gratuito (con limitaciones)
+- ✅ Fácil de usar
+- ✅ Add-ons disponibles
+
+---
+
+## 🌐 Opción 4: DigitalOcean App Platform
+
+### Pasos:
+
+1. **Crear cuenta en DigitalOcean**
+2. **Ir a App Platform**
+3. **Conectar repositorio**
+4. **Configurar:**
+   - **Build Command:** `npm install && npm run build:frontend`
+   - **Run Command:** `npm start`
+   - **Environment Variables:**
+     - `NODE_ENV` = `production`
+
+### Ventajas:
+- ✅ Plan básico desde $5/mes
+- ✅ Muy confiable
+- ✅ Escalable
+
+---
+
+## 🌐 Opción 5: Netlify (Solo Frontend) + Backend Separado
 
 Si quieres separar frontend y backend:
 
-#### Frontend en Vercel:
+### Frontend en Netlify:
+1. Ve a [netlify.com](https://netlify.com)
+2. Conecta tu repositorio
+3. **Build settings:**
+   - Build command: `npm run build:frontend`
+   - Publish directory: `public`
+4. **Environment variables:**
+   - `VITE_API_URL` = URL de tu backend
 
-1. **Instalar Vercel CLI:**
+### Backend en Render/Heroku:
+- Sigue las instrucciones de Render o Heroku arriba
+
+---
+
+## 🔧 Configuración Local para Producción
+
+### 1. Compilar el frontend:
 ```bash
-npm i -g vercel
+npm run build:frontend
 ```
 
-2. **Desplegar:**
+### 2. Verificar que se creó la carpeta `public`:
 ```bash
-cd client
-vercel
+ls public
 ```
 
-#### Backend en Railway/Render:
-
-Seguir pasos de Railway o Render para el backend.
-
-### 5. Servidor VPS (Ubuntu/Debian)
-
-#### Pasos:
-
-1. **Conectar al servidor:**
+### 3. Probar localmente en modo producción:
 ```bash
-ssh usuario@tu-servidor.com
+NODE_ENV=production npm start
 ```
 
-2. **Instalar Node.js:**
-```bash
-curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-sudo apt-get install -y nodejs
-```
+---
 
-3. **Instalar PM2:**
-```bash
-sudo npm install -g pm2
-```
+## 📝 Variables de Entorno
 
-4. **Clonar repositorio:**
-```bash
-git clone tu-repositorio
-cd tu-proyecto
-```
-
-5. **Instalar dependencias y compilar:**
-```bash
-npm install
-npm run build
-```
-
-6. **Iniciar con PM2:**
-```bash
-NODE_ENV=production pm2 start server.js --name "historias-clinicas"
-pm2 save
-pm2 startup
-```
-
-7. **Configurar Nginx (opcional):**
-```nginx
-server {
-    listen 80;
-    server_name tu-dominio.com;
-
-    location / {
-        proxy_pass http://localhost:3000;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-    }
-}
-```
-
-## 🔧 Configuración de Producción
-
-### Variables de Entorno
-
-Crea un archivo `.env` en producción:
+Crea un archivo `.env` (no lo subas a Git):
 
 ```env
 NODE_ENV=production
 PORT=3000
 ```
 
-### Base de Datos
+En las plataformas de despliegue, configura estas variables en el panel de configuración.
 
-La base de datos SQLite se creará automáticamente. En producción, considera:
+---
 
-- **Backups regulares** de `database.sqlite`
-- **Migrar a PostgreSQL** para producción (opcional)
+## 🗄️ Base de Datos en Producción
 
-## 📝 Checklist Pre-Despliegue
+**Nota importante:** SQLite funciona bien para desarrollo, pero para producción considera:
 
-- [ ] Frontend compilado (`npm run build`)
-- [ ] Variables de entorno configuradas
+1. **PostgreSQL** (Recomendado para producción)
+2. **MySQL**
+3. **MongoDB**
+
+Si quieres mantener SQLite:
+- Render: SQLite funciona bien
+- Heroku: Necesitas usar PostgreSQL (ephemeral filesystem)
+- Vercel: SQLite funciona con limitaciones
+
+---
+
+## ✅ Checklist de Despliegue
+
+- [ ] Código en repositorio Git
+- [ ] `.env` configurado (o variables en la plataforma)
+- [ ] Frontend compilado (`npm run build:frontend`)
+- [ ] `package.json` con scripts correctos
 - [ ] Base de datos inicializada
-- [ ] Pruebas locales en modo producción
-- [ ] Documentación actualizada
-- [ ] Archivos sensibles en `.gitignore`
+- [ ] Pruebas locales exitosas
+- [ ] Variables de entorno configuradas en la plataforma
+- [ ] Dominio personalizado (opcional)
 
-## 🐛 Troubleshooting
+---
+
+## 🐛 Solución de Problemas
 
 ### Error: "Cannot find module"
 ```bash
 npm install
-npm run build
 ```
 
 ### Error: "Port already in use"
-Cambiar el puerto en variables de entorno o en `server.js`.
+- Cambia el puerto en `.env` o usa la variable `PORT` de la plataforma
 
-### Base de datos no se crea
-Verificar permisos de escritura en el directorio del proyecto.
+### Frontend no carga:
+- Verifica que `npm run build:frontend` se ejecutó correctamente
+- Verifica que la carpeta `public` existe y tiene `index.html`
 
-## 📚 Recursos Adicionales
+### Base de datos no funciona:
+- Verifica permisos de escritura
+- Considera usar PostgreSQL para producción
 
-- [Railway Docs](https://docs.railway.app/)
-- [Render Docs](https://render.com/docs)
-- [Heroku Docs](https://devcenter.heroku.com/)
-- [PM2 Docs](https://pm2.keymetrics.io/)
+---
+
+## 📞 Soporte
+
+Si tienes problemas con el despliegue:
+1. Revisa los logs de la plataforma
+2. Verifica las variables de entorno
+3. Asegúrate de que el build se completó correctamente
+
+---
+
+## 🎉 ¡Listo!
+
+Una vez desplegado, tu aplicación estará disponible en la URL proporcionada por la plataforma.
+
+**Ejemplo de URLs:**
+- Render: `https://tu-app.onrender.com`
+- Vercel: `https://tu-app.vercel.app`
+- Heroku: `https://tu-app.herokuapp.com`
 
