@@ -24,7 +24,7 @@ git push
    - **Region:** Elige la más cercana
    - **Branch:** `main` (o `master`)
    - **Root Directory:** (dejar vacío)
-   - **Build Command:** `npm install && npm run build:frontend`
+   - **Build Command:** `npm install --include=dev && npm run build:frontend`
    - **Start Command:** `npm start`
 
 5. **Environment Variables:**

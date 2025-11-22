@@ -25,7 +25,7 @@ Esta guía te ayudará a desplegar la aplicación en diferentes plataformas.
 3. **Configuración:**
    - **Name:** `historias-clinicas-api`
    - **Environment:** `Node`
-   - **Build Command:** `npm install && npm run build:frontend`
+   - **Build Command:** `npm install --include=dev && npm run build:frontend`
    - **Start Command:** `npm start`
    - **Environment Variables:**
      - `NODE_ENV` = `production`
